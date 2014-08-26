@@ -24,12 +24,17 @@ body{
  	margin-bottom: 5px;
  }
 
+ #scrap {
+ 	margin-right: 10%;
+ 	text-align: right;
+ }
+
 .cardwrap, #field1, #field2{
 	margin-right: 5%;
 	margin-left: 5%;
 	display:block;
 }
- .p1hand, .p2hand, .p1field, .p2field {
+ .card {
  	background-size: 100%;
  	background-color: #12f34f;
  	max-width: 40%;

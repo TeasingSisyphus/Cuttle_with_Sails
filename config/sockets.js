@@ -34,8 +34,8 @@ var Player = function() {
 }
 
 //Game Object has two Player attributes: p1, p2,
-//an array with all cards: cards
-//an array with all cards in the current deck (ie not in a hand or field): deck
+//Untouched array of cards for reinitializing game: cards
+//Array with all cards in the current deck (ie not in a hand or field): deck
 
 var Game = function() {
   this.cards =
@@ -44,7 +44,12 @@ var Game = function() {
   "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "h11", "h12", "h13",
   "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12", "s13"
   ];
-  this.deck = this.cards;
+  this.deck =
+  ["c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "c11", "c12", "c13",
+  "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10", "d11", "d12", "d13",
+  "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "h11", "h12", "h13",
+  "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12", "s13"
+  ];
   this.p1 = new Player();
   this.p2 = new Player();
   this.scrap = [];
@@ -54,18 +59,21 @@ var Game = function() {
 //Method Definitions//
 //////////////////////
 
-//Clears dom and sets game to intial state
+//Resets game object to initial state
 Game.prototype.clear = function() {
-  //clears attributes of game object
-  this.deck = this.cards;
+  //Resets deck to original state using untouched cards array
+  for (var i = 0; i < this.cards.length; i++) {
+    this.deck[i] = this.cards[i];
+  };
+
+  //Resets hands and fields
   this.p1.hand = [];
   this.p2.hand = [];
   this.p1.field = [];
   this.p2.field =[];
-
 };
 
-//shuffle method shuffles all cards in deck
+//Shuffles all cards in deck
 Game.prototype.shuffle = function() {
   //len_index keeps track of where we are in shuffling loop
   var len_index = this.deck.length;
@@ -95,15 +103,36 @@ Game.prototype.deal = function() {
 }
 
 //Moves Card from player.hand to player.field
-Player.prototype.to_field = function (index) {
+Player.prototype.to_field = function(index) {
+  if(index <= this.hand.length) {
+    if(this.field.length < 7) {
+      temp = this.hand[index];
+      this.hand[index] = this.hand[0];
+      this.hand[0] = temp;
+      this.field[this.field.length] = this.hand.shift();
+    }
+  }
+}
+
+//Draws a card for player
+Player.prototype.pick_card = function(game) {
+  this.hand[this.hand.length] = game.deck.shift();
+}
+
+//Scraps Card from player's hand
+Player.prototype.shift_hand = function(index) {
   temp = this.hand[index];
   this.hand[index] = this.hand[0];
   this.hand[0] = temp;
-  this.field[this.field.length] = this.hand.shift();
+  return this.hand.shift();
 }
 
-Player.prototype.pick_card = function (game) {
-  this.hand[this.hand.length] = game.deck.shift();
+//Scraps Card from player's field
+Player.prototype.shift_field = function(index) {
+  temp = this.field[index];
+  this.field[index] = this.field[0];
+  this.field[0] = temp;
+  return this.field.shift();
 }
 
 ////////////////////
@@ -118,7 +147,7 @@ var game = new Game();
       game.clear();
     });
     //Deals card to player 1 when player 1's pick button is pressed
-    socket.on('pick_card1', function (){
+    socket.on('pick_card1', function() {
       if(game.p1.hand.length < 9) {
         game.p1.pick_card(game);
         socket.emit('render', game);
@@ -126,14 +155,15 @@ var game = new Game();
     });
 
     //Deals card to player 2 when player 2's pick button is pressed
-    socket.on('pick_card2', function (num){
+    socket.on('pick_card2', function () {
       if(game.p2.hand.length < 9) {
         game.p2.pick_card(game);
         socket.emit('render', game);
       }
     });
-    //function executes when user clicks 'shuffle'
-    //shuffles deck and emits 'shuffled' event, passing game object through socket
+
+    //Executes when user clicks 'shuffle'.
+    //Shuffles deck and emits 'shuffled' event, passing game object through socket
     socket.on('shuffle', function () {
       console.log('shuffle requested');
       game.shuffle();
@@ -144,7 +174,7 @@ var game = new Game();
       console.log('shuffle emitted');
     });
 
-    //function executes when user clicks 'DEAL'
+    //Executes when user clicks 'DEAL'
     //Calls deal method on game
     socket.on('deal', function () {
       game.deal();
@@ -163,7 +193,36 @@ var game = new Game();
       console.log('p2 hand: ' + game.p2.hand + '\np2 field: ' + game.p2.field);
       socket.emit('render', game);
     });
-  
+
+    //Moves card from p1's hand to BOTTOM of scrap pile
+    socket.on('p1_scrap_hand', function(index) {
+      console.log('scrapping hand p1');
+      game.scrap[game.scrap.length] = game.p1.shift_hand(index);
+      socket.emit('render', game);
+    });
+
+    //Moves card from p2's hand to BOTTOM of scrap pile
+    socket.on('p2_scrap_hand', function(index) {
+      console.log('scrapping hand p2');
+      game.scrap[game.scrap.length] = game.p2.shift_hand(index);
+      socket.emit('render', game);
+    });  
+
+    //Moves card from p1's field to BOTTOM of scrap pile
+    socket.on('p1_scrap_field', function(index) {
+      console.log('scrapping field p1');
+      game.scrap[game.scrap.length] = game.p1.shift_field(index);
+      console.log('p1 field: ' + game.p1.field + '\n');
+      socket.emit('render', game);
+    });
+
+    //Moves card from p2's field to BOTTOM of scrap pile
+    socket.on('p2_scrap_field', function(index) {
+      console.log('scrapping field p2');
+      game.scrap[game.scrap.length] = game.p2.shift_field(index);
+      console.log('p2 field: ' + game.p2.field + '\n');
+      socket.emit('render', game);
+    });
     socket.on('render req', function() {
       socket.emit('render', game);
     });
