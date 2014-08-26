@@ -33,10 +33,12 @@ body{
  	background-size: 100%;
  	background-color: #12f34f;
  	max-width: 40%;
- 	min-width: 10%;
+ 	min-width: 30px;
  	max-height: inherit;
- 	min-height: 12%;
+ 	min-height: 50px;
  	display: inline-block;
+ 	text-align: center;
+ 	vertical-align: top;
  }
 
  #picard1, #picard2 {
@@ -54,7 +56,7 @@ body{
  }
 
  .float{
- 	display: inline-block;
+ 	display: block;
  	float:center;
  	top: 15px;
 

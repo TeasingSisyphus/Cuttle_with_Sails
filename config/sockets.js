@@ -54,6 +54,17 @@ var Game = function() {
 //Method Definitions//
 //////////////////////
 
+//Clears dom and sets game to intial state
+Game.prototype.clear = function() {
+  //clears attributes of game object
+  this.deck = this.cards;
+  this.p1.hand = [];
+  this.p2.hand = [];
+  this.p1.field = [];
+  this.p2.field =[];
+
+};
+
 //shuffle method shuffles all cards in deck
 Game.prototype.shuffle = function() {
   //len_index keeps track of where we are in shuffling loop
@@ -75,6 +86,7 @@ Game.prototype.shuffle = function() {
 //Deals Hands to p1 and p2 from the deck
 //p1 gets 6 cards, p2 gets 5 and p2 plays first
 Game.prototype.deal = function() {
+  this.clear();
   this.p1.hand[0] = this.deck.shift();
   for (var i = 0; i < 5; i++) {
     this.p2.hand[i] = this.deck.shift();
@@ -82,6 +94,7 @@ Game.prototype.deal = function() {
   };
 }
 
+//Moves Card from player.hand to player.field
 Player.prototype.to_field = function (index) {
   temp = this.hand[index];
   this.hand[index] = this.hand[0];
@@ -100,22 +113,25 @@ var count = 0;
 var game = new Game();
 
 
-    socket.on('myEvent', function() {
-      console.log('event Fired!');
+    //Clears game when clear event is fired
+    socket.on('clear', function() {
+      game.clear();
     });
-
     //Deals card to player 1 when player 1's pick button is pressed
-    socket.on('pick_card1', function (num){
-      game.p1.pick_card(game);
-      socket.emit('render', game);
+    socket.on('pick_card1', function (){
+      if(game.p1.hand.length < 9) {
+        game.p1.pick_card(game);
+        socket.emit('render', game);
+      }
     });
 
     //Deals card to player 2 when player 2's pick button is pressed
     socket.on('pick_card2', function (num){
-      game.p2.pick_card(game);
-      socket.emit('render', game);
+      if(game.p2.hand.length < 9) {
+        game.p2.pick_card(game);
+        socket.emit('render', game);
+      }
     });
-
     //function executes when user clicks 'shuffle'
     //shuffles deck and emits 'shuffled' event, passing game object through socket
     socket.on('shuffle', function () {
@@ -140,18 +156,12 @@ var game = new Game();
       game.p1.to_field(index);
       console.log('p1 hand: ' + game.p1.hand + '\np1 field: ' + game.p1.field);
       socket.emit('render', game);
-      //function () writeComment{
-    //  document.getelementById('field1').innerHTML +='p1 hand: ' + game.p1.hand + '\np1 field: ' + game.p1.field;
-      //}
     });
   
     socket.on('p2_play', function(index) {
       game.p2.to_field(index);
-    console.log('p2 hand: ' + game.p2.hand + '\np2 field: ' + game.p2.field);
+      console.log('p2 hand: ' + game.p2.hand + '\np2 field: ' + game.p2.field);
       socket.emit('render', game);
-    //function () writeComment{
-    //    document.getelementById('field2').innerHTML +='p1 hand: ' + game.p1.hand + '\np1 field: ' + game.p1.field;
-    //  }
     });
   
     socket.on('render req', function() {
