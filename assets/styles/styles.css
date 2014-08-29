@@ -1,42 +1,36 @@
-/*{border: 1px solid red;}*/
+/*{
+	border: 1px dotted black;
 
-html , body {height:100%;
-			margin: 0;
-			}
+}*/
 
-body{
-
+body {
+	max-height: 100%;
+	color:#188A00;
+	
 }
-	/*Wraps - Hands and Field Wrap */
+ 
+.wrap1 {
 
-.wrap2 {
-	min-height:20%;
-	max-height:50%;
-	display: block;
-	background-color: #19D7F7;
-	padding-top: 15px;
-	padding-bottom:10px;
- }
- .wrap2 p {
- 	padding-left: 50%;
- 	padding-right: :50%;
- 	margin-top: 5px;
- 	margin-bottom: 5px;
- }
-
- #scrap {
- 	margin-right: 10%;
- 	text-align: right;
- }
-
-.cardwrap, #field1, #field2{
-	margin-right: 5%;
-	margin-left: 5%;
-	display:block;
+	min-width: 100%;
+	max-height: 28%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background-color: #CF6870;
 }
- .card {
+
+.wrap1 p {
+	margin-top:5px;
+	text-align: center;
+	text-shadow: 2px 2px #CF6870;
+}
+
+.cardwrap {
+	position: static;
+	text-align: center;
+}
+.card {
  	background-size: 100%;
- 	background-color: #12f34f;
+ 	background-color: #530006;
  	max-width: 40%;
  	min-width: 30px;
  	max-height: inherit;
@@ -44,29 +38,26 @@ body{
  	display: inline-block;
  	text-align: center;
  	vertical-align: top;
- }
 
- #picard1, #picard2 {
- 	display: inline-block;
- 	padding-top: 8px;
- 	float:right;
+}
 
- }
+#gamebuttons div:hover, .card:hover, .card:focus, .card:active {
+	 -webkit-transition-duration: 0.1s;
+  	 transition-duration: 0.3s;
+  	 -webkit-transition-property: transform;
+  	 transition-property: transform;
+  	 -webkit-transform: translateZ(0);
+  	 transform: translateZ(0);
+  	 box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  	 -webkit-transform: scale(2.2);
+  	 transform: scale(2.2);
+}
 
-  #field1button, #field2button{
- 	display: inline-block;
- 	padding-top: 8px;
- 	float:left;
-
- }
-
- .float{
- 	display: block;
- 	float:center;
- 	top: 15px;
-
- }
-
- #floatbuttons {
- 	top:15px;
- }
+#gamebuttons {
+	text-align: center;
+}
+#gamebuttons div {
+	display:inline-block;
+	text-align: center;
+	background-color: #530006;
+}

@@ -5,88 +5,104 @@
 
     <script src="/socket.io/socket.io.js"></script>
 
-   <link rel="stylesheet" type="text/css" href="./styles/styles.css">
+   <link rel="stylesheet" type="text/css" href="./styles.css">
 </head>
 
-<div id='fullwrap'>
+<!-- Player One Div is in the background -->
+  <div id='player1' class ='wrap1'>
+    
+    <p>
+      Player One's Hand
+    </p>
 
-<!--Top Wrap: Player 1's Hand -->
-  <div id='hand1' class='wrap2'> <p>Player 1 Hand: </p> 
-     <div class='cardwrap'> 
+    <div class='cardwrap'>
       <div id='p_one_h0' class ='p1hand card'></div>
-      <div id='p_one_h1' class ='p1hand card'></div>
-      <div id='p_one_h2' class ='p1hand card'></div>
-      <div id='p_one_h3' class ='p1hand card'></div>
-      <div id='p_one_h4' class ='p1hand card'></div>
-      <div id='p_one_h5' class ='p1hand card'></div>
-      <div id='p_one_h6' class ='p1hand card'></div>
-      <div id='p_one_h7' class ='p1hand card'></div>
+        <div id='p_one_h1' class ='p1hand card'></div>
+        <div id='p_one_h2' class ='p1hand card'></div>
+        <div id='p_one_h3' class ='p1hand card'></div>
+        <div id='p_one_h4' class ='p1hand card'></div>
+        <div id='p_one_h5' class ='p1hand card'></div>
+        <div id='p_one_h6' class ='p1hand card'></div>
+        <div id='p_one_h7' class ='p1hand card'></div>
+    </div>  
+
+    <button id='picard1' class='picard'>
+      P1 Draw
+    </button>
+  </div>
+
+<!-- The FIeld forplayer 1 is here-->
+
+  <div id='field1' class='wrap1'>
+    <p>
+      Player 1 Field 
+    </p>
+      
+      <div class='cardwrap'>
+       <div id='p_one_f0' class ='p1field card'></div>
+       <div id='p_one_f1' class ='p1field card'></div>
+       <div id='p_one_f2' class ='p1field card'></div>
+       <div id='p_one_f3' class ='p1field card'></div>
+       <div id='p_one_f4' class ='p1field card'></div>
+       <div id='p_one_f5' class ='p1field card'></div>
     </div>
-
-    <!--Picking Cards--> 
-      <button id='picard1' class='wrap3'>P1 Draw</button>
-    <!--FIeld Cards-->
-      <div id='field1button' class='wrap3'>Play Card to Field P1</div>
-    
-    
-
   </div>
 
-<!--Middle Wrap: THe Field-->
-  <div id='field' class='wrap2'><p>The FIELD</p>
+<!--The middle Game Elements-->
 
-  <!--Field Player 1 -->
-  <div id='field1'> <p>Player 1 Field </p>
-    <div id='p_one_f0' class ='p1field card'></div>
-    <div id='p_one_f1' class ='p1field card'></div>
-    <div id='p_one_f2' class ='p1field card'></div>
-    <div id='p_one_f3' class ='p1field card'></div>
-    <div id='p_one_f4' class ='p1field card'></div>
-    <div id='p_one_f5' class ='p1field card'></div>
-  </div>
-
-  <div id='scrap'>SCRAP: </div>
-  <!--Field Player 2 -->
-   <div id='field2'> <p>Player 2 Field </p>
-    <div id='p_two_f0' class ='p2field card'></div>
-    <div id='p_two_f1' class ='p2field card'></div>
-    <div id='p_two_f2' class ='p2field card'></div>
-    <div id='p_two_f3' class ='p2field card'></div>
-    <div id='p_two_f4' class ='p2field card'></div>
-    <div id='p_two_f5' class ='p2field card'></div>
-   </div>
-
-  </div>
-
-
-<!--Bottom Wrap: Player 2's Hand -->
-<div id= 'hand2' class ='wrap2'> <p>Player 2 Hand: </p>
-   <div class='cardwrap'> 
-    <div id='p_two_h0' class ='p2hand card'></div>
-    <div id='p_two_h1' class ='p2hand card'></div>
-    <div id='p_two_h2' class ='p2hand card'></div>
-    <div id='p_two_h3' class ='p2hand card'></div>
-    <div id='p_two_h4' class ='p2hand card'></div>
-    <div id='p_two_h5' class ='p2hand card'></div>
-    <div id='p_two_h6' class ='p2hand card'></div>
-    <div id='p_two_h7' class ='p2hand card'></div>
-  </div> 
-   <!--Picking Cards--> 
-    <button id='picard2'>P2 Draw</button>
-   <!--FIeld Cards-->
-    <div id='field2button'>Play Card to Field P2</div>
- 
-
-</div>
-
-<div id='floatbuttons'>
-<!-- FLoat Elements For GamePlay -->
-        
-        <div id='shuflcard' class='float'>SHUFFLE CARDS</div>
+  <div id='gamebuttons' class='wrap1'>
+    <div id='shuflcard' class='float'>SHUFFLE CARDS</div>
         <div id='dealcard' class='float'>DEAL</div>
         <div id='renderbutton' class='float'>RENDER</div>
         <div id='clear' class='float'>CLEAR</div>
-
         <div id='selector'></div>
-</div>
+        <div id='scrap'>  SCRAP: </div>
+  </div>
+  
+<!-- The FIeld forplayer 2 is here-->
 
+  <div id='field2' class='wrap1'>
+      
+      <div class='cardwrap'>
+       <div id='p_two_f0' class ='p2field card'></div>
+       <div id='p_two_f1' class ='p2field card'></div>
+       <div id='p_two_f2' class ='p2field card'></div>
+       <div id='p_two_f3' class ='p2field card'></div>
+       <div id='p_two_f4' class ='p2field card'></div>
+       <div id='p_two_f5' class ='p2field card'></div>
+    </div>
+    
+    <p>
+      Player 2 Field 
+    </p>
+
+  </div>
+
+<!-- Player two Div is in the background -->
+  <div id='player2' class ='wrap1'>
+
+    <button id='picard2' class='picard'>
+      P2 Draw
+    </button>
+
+    <div class='cardwrap'> 
+       <div id='p_two_h0' class ='p2hand card'></div>
+       <div id='p_two_h1' class ='p2hand card'></div>
+       <div id='p_two_h2' class ='p2hand card'></div>
+       <div id='p_two_h3' class ='p2hand card'></div>
+       <div id='p_two_h4' class ='p2hand card'></div>
+       <div id='p_two_h5' class ='p2hand card'></div>
+       <div id='p_two_h6' class ='p2hand card'></div>
+       <div id='p_two_h7' class ='p2hand card'></div>
+      </div>  
+
+    <p>
+      Player Two's Hand
+    </p>
+  </div>
+
+<!-- Legacy and Float Buttons are Presented Below-->
+  <div id='floatbuttons'>
+    <div id='field1button'>Play Card to Field P1</div>
+    <div id='field2button'>Play Card to Field P2</div>
+  </div>
